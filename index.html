@@ -71,50 +71,30 @@
     overflow: hidden;
     z-index: 30;
   }
-  .confetti {
+  .celebration-piece {
     position: absolute;
-    top: -10vh;
+    top: -10px;
     width: 8px;
-    height: 16px;
+    height: 14px;
     opacity: 0;
     border-radius: 2px;
-    animation: confetti-fall 2.8s linear forwards;
+    animation: celebrate-fall 1.4s ease-out forwards;
   }
-  .confetti::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: inherit;
-    transform: rotate(45deg);
+  .celebration-piece.balloon {
+    width: 24px;
+    height: 32px;
+    border-radius: 999px 999px 80% 80%;
+    animation: celebrate-balloon 1.8s ease-out forwards;
   }
-  .balloon {
-    position: absolute;
-    bottom: -120px;
-    width: 34px;
-    height: 44px;
-    border-radius: 999px 999px 85% 85%;
-    opacity: 0;
-    animation: balloon-rise 4.2s ease-in forwards;
-  }
-  .balloon::after {
-    content: '';
-    position: absolute;
-    left: 50%;
-    bottom: -18px;
-    width: 2px;
-    height: 20px;
-    background: rgba(0,0,0,0.25);
-    transform: translateX(-50%);
-  }
-  @keyframes confetti-fall {
+  @keyframes celebrate-fall {
     0% { transform: translate3d(0, 0, 0) rotate(0deg); opacity: 0; }
-    10% { opacity: 1; }
-    100% { transform: translate3d(var(--drift), 110vh, 0) rotate(720deg); opacity: 0; }
+    20% { opacity: 1; }
+    100% { transform: translate3d(var(--drift), 120vh, 0) rotate(540deg); opacity: 0; }
   }
-  @keyframes balloon-rise {
-    0% { transform: translate3d(0, 0, 0) scale(0.95); opacity: 0; }
-    15% { opacity: 1; }
-    100% { transform: translate3d(var(--drift), -110vh, 0) scale(1.08); opacity: 0; }
+  @keyframes celebrate-balloon {
+    0% { transform: translate3d(0, 0, 0) scale(0.8); opacity: 0; }
+    20% { opacity: 1; }
+    100% { transform: translate3d(var(--drift), -110vh, 0) scale(1.1); opacity: 0; }
   }
 </style>
 </head>
@@ -153,34 +133,34 @@
     layer.innerHTML = '';
     const colors = ['#d66c4f', '#5f7a3f', '#a5824d', '#b5493a', '#4a3b25', '#6f7d52'];
 
-    for (let i = 0; i < 80; i++) {
+    for (let i = 0; i < 24; i++) {
       const piece = document.createElement('span');
-      piece.className = 'confetti';
+      piece.className = 'celebration-piece';
       piece.style.left = `${Math.random() * 100}%`;
       piece.style.background = colors[Math.floor(Math.random() * colors.length)];
-      piece.style.setProperty('--drift', `${(Math.random() - 0.5) * 220}px`);
-      piece.style.animationDuration = `${2.2 + Math.random() * 1.2}s`;
-      piece.style.animationDelay = `${Math.random() * 0.2}s`;
+      piece.style.setProperty('--drift', `${(Math.random() - 0.5) * 180}px`);
+      piece.style.animationDelay = `${Math.random() * 0.1}s`;
       layer.appendChild(piece);
     }
 
-    for (let i = 0; i < 18; i++) {
+    for (let i = 0; i < 6; i++) {
       const balloon = document.createElement('span');
-      balloon.className = 'balloon';
+      balloon.className = 'celebration-piece balloon';
       balloon.style.left = `${Math.random() * 100}%`;
       balloon.style.background = colors[Math.floor(Math.random() * colors.length)];
-      balloon.style.setProperty('--drift', `${(Math.random() - 0.5) * 180}px`);
-      balloon.style.animationDuration = `${3.6 + Math.random() * 1.2}s`;
+      balloon.style.setProperty('--drift', `${(Math.random() - 0.5) * 140}px`);
       balloon.style.animationDelay = `${Math.random() * 0.1}s`;
       layer.appendChild(balloon);
     }
 
     setTimeout(() => {
       layer.innerHTML = '';
-    }, 4500);
+    }, 1800);
   }
 
   function check() {
+    spawnCelebration();
+
     const val = document.getElementById('pw').value;
     const err = document.getElementById('err');
     const normalized = String(val).trim().toLowerCase();
