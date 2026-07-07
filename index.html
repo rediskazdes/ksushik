@@ -96,10 +96,10 @@
   function check() {
     const val = document.getElementById('pw').value;
     const err = document.getElementById('err');
-    const normalized = String(val).trim();
-    const candidate = normalized.startsWith('@') ? normalized.slice(1) : normalized;
+    const normalized = String(val).trim().toLowerCase();
+    const handle = PASSWORD.toLowerCase();
 
-    if (candidate === PASSWORD) {
+    if (normalized.includes(handle)) {
       const dl = document.getElementById('dl');
       dl.href = "data:application/pdf;base64," + PDF_B64;
       document.getElementById('lockedView').style.display = 'none';
