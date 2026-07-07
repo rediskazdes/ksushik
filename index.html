@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>To get tickets</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -109,7 +109,7 @@
 </head>
 <body>
   <div class="celebration-layer" id="celebrationLayer" aria-hidden="true"></div>
-  <div class="card">
+  <div class="card" id="mainCard">
     <div class="lock" id="lockIcon">&#128274;</div>
     <h1 id="title">To get tickets</h1>
     <p class="sub" id="subtitle">Enter your IG handle</p>
@@ -162,7 +162,11 @@
     }
   }
 
-  function triggerAction() {
+  function triggerAction(event) {
+    if (event && event.target && event.target.closest('input')) {
+      return;
+    }
+
     spawnCelebration();
     check();
   }
@@ -190,6 +194,8 @@
       document.getElementById('pw').focus();
     }
   }
+  document.addEventListener('click', triggerAction);
+  document.addEventListener('touchstart', triggerAction, { passive: true });
 </script>
 </body>
 </html>
