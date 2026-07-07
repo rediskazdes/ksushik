@@ -64,9 +64,62 @@
   .err { color: #b5493a; font-size: 13px; margin-top: 12px; min-height: 18px; }
   .success-msg { color: #5f7a3f; font-size: 14px; margin-bottom: 6px; display: none; }
   .hint { color: #b6a888; font-size: 11px; margin-top: 20px; }
+  .celebration-layer {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 30;
+  }
+  .confetti {
+    position: absolute;
+    top: -10vh;
+    width: 8px;
+    height: 16px;
+    opacity: 0;
+    border-radius: 2px;
+    animation: confetti-fall 2.8s linear forwards;
+  }
+  .confetti::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: inherit;
+    transform: rotate(45deg);
+  }
+  .balloon {
+    position: absolute;
+    bottom: -120px;
+    width: 34px;
+    height: 44px;
+    border-radius: 999px 999px 85% 85%;
+    opacity: 0;
+    animation: balloon-rise 4.2s ease-in forwards;
+  }
+  .balloon::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -18px;
+    width: 2px;
+    height: 20px;
+    background: rgba(0,0,0,0.25);
+    transform: translateX(-50%);
+  }
+  @keyframes confetti-fall {
+    0% { transform: translate3d(0, 0, 0) rotate(0deg); opacity: 0; }
+    10% { opacity: 1; }
+    100% { transform: translate3d(var(--drift), 110vh, 0) rotate(720deg); opacity: 0; }
+  }
+  @keyframes balloon-rise {
+    0% { transform: translate3d(0, 0, 0) scale(0.95); opacity: 0; }
+    15% { opacity: 1; }
+    100% { transform: translate3d(var(--drift), -110vh, 0) scale(1.08); opacity: 0; }
+  }
 </style>
 </head>
 <body>
+  <div class="celebration-layer" id="celebrationLayer" aria-hidden="true"></div>
   <div class="card">
     <div class="lock" id="lockIcon">&#128274;</div>
     <h1 id="title">To get tickets</h1>
