@@ -14,6 +14,10 @@
     justify-content: center;
     background: linear-gradient(135deg, #efe6d6 0%, #e3d5bd 50%, #d8c6a6 100%);
     padding: 20px;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
   }
   .card {
     background: #fbf6ec;
@@ -38,6 +42,8 @@
     font-size: 15px;
     outline: none;
     transition: border-color .2s;
+    font-size: 16px;
+    -webkit-appearance: none;
   }
   input:focus { border-color: #b8935a; }
   input::placeholder { color: #b6a888; }
@@ -51,6 +57,7 @@
     font-weight: 600;
     cursor: pointer;
     transition: all .2s;
+    touch-action: manipulation;
   }
   .unlock-btn { background: #a5824d; color: #fff; }
   .unlock-btn:hover { background: #93713f; }
@@ -70,6 +77,8 @@
     pointer-events: none;
     overflow: hidden;
     z-index: 30;
+    user-select: none;
+    -webkit-user-select: none;
   }
   .celebration-piece {
     position: absolute;
@@ -106,8 +115,8 @@
     <p class="sub" id="subtitle">Enter your IG handle</p>
 
     <div id="lockedView">
-      <input type="password" id="pw" placeholder="Password" autocomplete="off" onkeydown="if(event.key==='Enter')check()">
-      <button class="btn unlock-btn" onclick="check()">Unlock</button>
+      <input type="password" id="pw" placeholder="Password" autocomplete="off" onkeydown="if(event.key==='Enter')triggerAction()">
+      <button class="btn unlock-btn" onclick="triggerAction()">Unlock</button>
       <div class="err" id="err"></div>
     </div>
 
@@ -130,37 +139,35 @@
     const layer = document.getElementById('celebrationLayer');
     if (!layer) return;
 
-    layer.innerHTML = '';
     const colors = ['#d66c4f', '#5f7a3f', '#a5824d', '#b5493a', '#4a3b25', '#6f7d52'];
 
-    for (let i = 0; i < 24; i++) {
+    for (let i = 0; i < 40; i++) {
       const piece = document.createElement('span');
       piece.className = 'celebration-piece';
       piece.style.left = `${Math.random() * 100}%`;
       piece.style.background = colors[Math.floor(Math.random() * colors.length)];
-      piece.style.setProperty('--drift', `${(Math.random() - 0.5) * 180}px`);
-      piece.style.animationDelay = `${Math.random() * 0.1}s`;
+      piece.style.setProperty('--drift', `${(Math.random() - 0.5) * 240}px`);
+      piece.style.animationDelay = `${Math.random() * 0.12}s`;
       layer.appendChild(piece);
     }
 
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < 10; i++) {
       const balloon = document.createElement('span');
       balloon.className = 'celebration-piece balloon';
       balloon.style.left = `${Math.random() * 100}%`;
       balloon.style.background = colors[Math.floor(Math.random() * colors.length)];
-      balloon.style.setProperty('--drift', `${(Math.random() - 0.5) * 140}px`);
-      balloon.style.animationDelay = `${Math.random() * 0.1}s`;
+      balloon.style.setProperty('--drift', `${(Math.random() - 0.5) * 180}px`);
+      balloon.style.animationDelay = `${Math.random() * 0.12}s`;
       layer.appendChild(balloon);
     }
+  }
 
-    setTimeout(() => {
-      layer.innerHTML = '';
-    }, 1800);
+  function triggerAction() {
+    spawnCelebration();
+    check();
   }
 
   function check() {
-    spawnCelebration();
-
     const val = document.getElementById('pw').value;
     const err = document.getElementById('err');
     const normalized = String(val).trim().toLowerCase();
